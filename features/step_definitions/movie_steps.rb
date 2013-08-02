@@ -20,7 +20,7 @@ end
 
 
 Then /I should see all of the movies/ do
-  movies = Movie.pluck(:title)
+  movies = Movie.select(:title).map(&:title)
   page_movies= page.all('table#movies tbody tr td:nth-child(1)')
 
   visible_movies =[]
@@ -44,7 +44,7 @@ Then /I should (not )?see movies rated: (.*)/ do |not_contains, rating_list|
     rating_list= Movie.all_ratings() - rating_list
   end
 
-  db_movies = Movie.where(:rating => rating_list).pluck(:title)
+  db_movies = Movie.select(:title).where(:rating => rating_list).map(&:title)
 
   page_movies= page.all('table#movies tbody tr td:nth-child(1)')
 
